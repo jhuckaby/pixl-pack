@@ -1,6 +1,6 @@
 {
   "name": "pixl-pack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Encode and decode objects to/from binary buffers.",
   "author": "Joseph Huckaby <jhuckaby@gmail.com>",
   "homepage": "https://github.com/jhuckaby/pixl-pack",
@@ -17,5 +17,10 @@
     "utilities",
     "miscellaneous",
     "binary"
-  ]
+  ],
+  "dependencies": {
+	"length-prefixed-stream": "2.0.0",
+	"pumpify": "2.0.1",
+	"through2": "3.0.1"
+  }
 }

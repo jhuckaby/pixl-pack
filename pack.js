@@ -8,6 +8,10 @@
 // Beats msgpack-lite on speed (but not size).
 // Key max length: 64 K, Value max length: 4 GB
 
+var pumpify = require('pumpify');
+var through = require('through2');
+var lpStream = require('length-prefixed-stream');
+
 const TYPE_BUFFER = 0;
 const TYPE_STRING = 1;
 const TYPE_NUMBER = 2;
@@ -184,6 +188,34 @@ module.exports = {
 		}
 		
 		return value;
+	},
+	
+	createEncodeStream: function(stream) {
+		// create stream wrapper using pixl-pack as an encoder
+		var self = this;
+		
+		var msgEncode = through.obj( function(data, enc, next) {
+			var buf = null;
+			try { buf = self.encode(data); }
+			catch (err) { return next(err); }
+			next(null, buf);
+		});
+		
+		return pumpify.obj( msgEncode, lpStream.encode() );
+	},
+	
+	createDecodeStream: function(stream) {
+		// create stream wrapper using pixl-pack as a decoder
+		var self = this;
+		
+		var msgDecode = through.obj( function(buf, enc, next) {
+			var data = null;
+			try { data = self.decode(buf); }
+			catch (err) { return next(err); }
+			next(null, data);
+		});
+		
+		return pumpify.obj( lpStream.decode(), msgDecode );
 	}
 	
 };
