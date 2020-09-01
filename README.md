@@ -8,7 +8,7 @@ This module uses a proprietary data format.  It is not compatible with [msgpack]
 
 - Faster than [msgpack-lite](https://github.com/kawanet/msgpack-lite) (see [Benchmarks](#benchmarks) below).
 - Supports [BigInts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt).
-- Low memory overhead (Buffer decoding does not duplicate memory).
+- Low memory overhead (Buffer decoding does not copy memory).
 - Stream wrappers included for sending packed objects over streams.
 
 ## Supported Types
@@ -129,7 +129,7 @@ decodeStream.on('data', function(obj) {
 | Object | 372,714 /sec | 463,397 /sec |
 | Array | 856,014 /sec | 968,914 /sec |
 
-Benchmarks run on a MacBook Pro 2020 with macOS 10.15.5 and Node v12.13.1.
+Benchmarks were run on a MacBook Pro 2020 with macOS 10.15.5 and Node v12.13.1.
 
 [Benchmark Script](https://gist.github.com/jhuckaby/9e27a039fc8309427a4163e23bfacc85)
 
@@ -140,6 +140,7 @@ To install pixl-pack for development, run these commands:
 ```
 git clone https://github.com/jhuckaby/pixl-pack.git
 cd pixl-pack
+npm install
 ```
 
 # License
