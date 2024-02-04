@@ -26,7 +26,7 @@ This module uses a proprietary data format.  It is not compatible with [msgpack]
 
 Use [npm](https://www.npmjs.com/) to install the module:
 
-```
+```sh
 npm install pixl-pack
 ```
 
@@ -35,7 +35,7 @@ Here is a simple usage example:
 ```js
 const Pack = require('pixl-pack');
 
-var buf = Pack.encode({
+let buf = Pack.encode({
 	"foo": "bar",
 	"buf": Buffer.from("Now is the time for all good men to come to the aid of their country."),
 	"num": 384738.34341,
@@ -43,7 +43,7 @@ var buf = Pack.encode({
 	"bool": true
 });
 
-var data = Pack.decode(buf);
+let data = Pack.decode(buf);
 console.log( data );
 ```
 
@@ -62,17 +62,17 @@ Here is a streaming example with child processes:
 const Pack = require('pixl-pack');
 
 // spawn worker child
-var child = require('child_process').spawn( 
+let child = require('child_process').spawn( 
 	'node', ['my-worker.js'], 
 	{ stdio: ['pipe', 'pipe', 'pipe'] }
 );
 
 // connect streams to child's stdio from parent
 // (write to child.stdin, read from child.stdout)
-var encodeStream = Pack.createEncodeStream();
+let encodeStream = Pack.createEncodeStream();
 encodeStream.pipe( child.stdin );
 
-var decodeStream = Pack.createDecodeStream();
+let decodeStream = Pack.createDecodeStream();
 child.stdout.pipe( decodeStream );
 
 // send binary object over stream to child's STDIN
@@ -101,10 +101,10 @@ And in the child process we use the same helper functions to setup the other sid
 const Pack = require('pixl-pack');
 
 // connect streams to our stdio in child
-var decodeStream = Pack.createDecodeStream();
+let decodeStream = Pack.createDecodeStream();
 process.stdin.pipe( decodeStream );
 
-var encodeStream = Pack.createEncodeStream();
+let encodeStream = Pack.createEncodeStream();
 encodeStream.pipe( process.stdout );
 
 // wait for object from parent and send it back with changes
@@ -137,7 +137,7 @@ Benchmarks were run on a MacBook Pro 2020 with macOS 10.15.5 and Node v12.13.1.
 
 To install pixl-pack for development, run these commands:
 
-```
+```sh
 git clone https://github.com/jhuckaby/pixl-pack.git
 cd pixl-pack
 npm install
